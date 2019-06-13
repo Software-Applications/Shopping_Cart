@@ -26,8 +26,6 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-#print(products)
-
 
 # prompt the checkout clerk to input the identifier of each shopping cart item, one at a time. 
 # When the clerk enters DONE, process payment
@@ -36,17 +34,21 @@ products = [
 ###########################
 # CODE
 
+# rounds the number to 2 decimal digits and adds $ sign to indicate currency
 def to_usd(dollar_amt):
     return "${0:,.2f}".format(dollar_amt)
 
+# calculates the tax amount
 def calc_tax(product_total):
     tax_percent = 8.73                     # TODO: This is in main script. Can i put it in a different script?
     tax_amt = product_total * tax_percent/100
     return tax_amt
 
+# calculates the grand total
 def calc_total_bill_amt(product_total, tax_percent = 8.73):    #TODO:This is in main script. Can i put in in a different script?
-    return product_total + (product_total * tax_percent)
+    return product_total + (product_total * tax_percent/100)
 
+# Current date logic to print current date and time based on 12 hour scale
 def def_date():
     now = datetime.datetime.now()
     return now.strftime("%Y-%m-%d:%I:%M:%S %p")
@@ -54,16 +56,22 @@ def def_date():
 # STEP 1: TAKE INPUTS AND PRINT THEM
 selected_products = []
 total_price = 0
+product_ids = [i["id"] for i in products]    # list of all products available. Useful for validation purposes
+
 while True:
     input_id = input("Please input a product identifier:")
 
-#TODO: What if the user enters DOne or DONE
-#TODO: What if the user enters someother text string
-#TODO: WHat if the user enters a number that is not available in the list
-    if input_id.lower() == "done":
-        break
+    # Validate user input
+    if str(input_id) in str(product_ids) or input_id.lower() == "done":
+        
+        # If the input is valid, do further processing until user enters Done
+        # Done signal is case agnostic
+        if input_id.lower() == "done":
+            break
+        else:
+            selected_products.append(input_id)
     else:
-        selected_products.append(input_id)
+        print("You have entered an invalid product id. Enter again or contact the store manager")
     
 print("-------------------------------------------------")
 print("GREEN FOODS GROCERY STORE")       #TODO: This is in main script. Can i put it in a different script
@@ -72,22 +80,21 @@ print("-------------------------------------------------")
 print(f"CHECK OUT AT: {def_date()}")
 print("-------------------------------------------------")
 print("SELECTED PRODUCTS")
+
+
 for selected_product in selected_products:
     product_match = [p for p in products if str(p["id"]) in str(selected_product)]
     total_price = total_price + product_match[0]['price']
-    #product_price = "${0:,.2f}".format(product_match[0]['price'])
     product_price = to_usd(product_match[0]['price'])
-
-    #print(product_match[0]['price'])
     print(f"... {product_match[0]['name']} ({product_price})")
 
 print("-------------------------------------------------")
+
+
 #STEP 2: PRINT SUBTOTAL AND GRAND TOTAL
-#print(f"SUBTOTAL = {total_price}")
 product_tot_amt = to_usd(total_price)
 product_tot_tax = to_usd(calc_tax(total_price))
 product_grand_tot = to_usd(calc_total_bill_amt(total_price))
-#print(f"SUBTOTAL = {to_usd(total_price)}")
 print(f"SUBTOTAL = {product_tot_amt}")
 print(f"TAX = {product_tot_tax}")
 print(f"TOTAL = {product_grand_tot}")
@@ -96,35 +103,3 @@ print("Thanks, SEE YOU AGAIN SOON!")
 print("-------------------------------------------------")
 
 
-#selected_product = [p for p in products if str(p["id"]) == str(input_id)]
-#print(type(selected_product))
-
-#print(f"...{selected_product[0]['name']} ({product_price})")
-#selected_list.append(input_id)
-#print(selected_list)
-#selected_product = [p for p in products if str(p["id"]) == str(input_id)]
-#print()
-
-# USED THE SELECTED PRODUCTS TO FILTER VALUES FROM THE PRODUCTS LIST
-
-
-'''
-# list of product ids
-product_id = [i["id"] for i in products]
-#print(product_id)
-cust_product = []
-
-while True:
-    print(product_id)
-    p_id = input("Enter the product id:")
-
-    
-    if p_id in product_id:
-        cust_product.append(p_id)
-    elif p_id == "Done":
-        exit()
-    else:
-        print("You have entered an incorrect product code. Enter Again")
-
-
-'''
