@@ -31,11 +31,22 @@ products = [
 # When the clerk enters DONE, process payment
 # If product id is not found, ask the user to add a correct entry
 
-
+###########################
 # CODE
-#product_id = [i["id"] for i in products]
 
-# CREATE A LiST OF SELECTED PRODUCTS
+def to_usd(dollar_amt):
+    return "${0:,.2f}".format(dollar_amt)
+
+def calc_tax(product_total):
+    tax_percent = 8.73                     # TODO: This is in main script. Can i put it in a different script?
+    tax_amt = product_total * tax_percent/100
+    return tax_amt
+
+def calc_total_bill_amt(product_total, tax_percent = 8.73):    #TODO:This is in main script. Can i put in in a different script?
+    return product_total + (product_total * tax_percent)
+    
+    
+# STEP 1: TAKE INPUTS AND PRINT THEM
 selected_products = []
 total_price = 0
 while True:
@@ -54,13 +65,25 @@ print("SELECTED PRODUCTS")
 for selected_product in selected_products:
     product_match = [p for p in products if str(p["id"]) in str(selected_product)]
     total_price = total_price + product_match[0]['price']
-    product_price = "${0:,.2f}".format(product_match[0]['price'])
+    #product_price = "${0:,.2f}".format(product_match[0]['price'])
+    product_price = to_usd(product_match[0]['price'])
+
     #print(product_match[0]['price'])
     print(f"... {product_match[0]['name']} ({product_price})")
 
 print("-------------------------------------------------")
-#TODO: Define a function to convert price to USD and use it across the script
-print(f"SUBTOTAL = {total_price}")
+#STEP 2: PRINT SUBTOTAL AND GRAND TOTAL
+#print(f"SUBTOTAL = {total_price}")
+product_tot_amt = to_usd(total_price)
+product_tot_tax = to_usd(calc_tax(total_price))
+product_grand_tot = to_usd(calc_total_bill_amt(total_price))
+#print(f"SUBTOTAL = {to_usd(total_price)}")
+print(f"SUBTOTAL = {product_tot_amt}")
+print(f"TAX = {product_tot_tax}")
+print(f"TOTAL = {product_grand_tot}")
+print("-------------------------------------------------")
+print("Thanks, SEE YOU AGAIN SOON!")
+print("-------------------------------------------------")
 
 
 #selected_product = [p for p in products if str(p["id"]) == str(input_id)]
