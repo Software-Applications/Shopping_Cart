@@ -1,5 +1,7 @@
 # shopping_cart.py
 
+import datetime
+
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -44,8 +46,11 @@ def calc_tax(product_total):
 
 def calc_total_bill_amt(product_total, tax_percent = 8.73):    #TODO:This is in main script. Can i put in in a different script?
     return product_total + (product_total * tax_percent)
-    
-    
+
+def def_date():
+    now = datetime.datetime.now()
+    return now.strftime("%Y-%m-%d:%I:%M:%S %p")
+
 # STEP 1: TAKE INPUTS AND PRINT THEM
 selected_products = []
 total_price = 0
@@ -59,7 +64,12 @@ while True:
         break
     else:
         selected_products.append(input_id)
-
+    
+print("-------------------------------------------------")
+print("GREEN FOODS GROCERY STORE")       #TODO: This is in main script. Can i put it in a different script
+print("WWW.GREEN-FOODS-GROCERY.COM")     #TODO: This is in main script. Can i put it in a different script. Can i make this a hyperlink
+print("-------------------------------------------------")
+print(f"CHECK OUT AT: {def_date()}")
 print("-------------------------------------------------")
 print("SELECTED PRODUCTS")
 for selected_product in selected_products:
