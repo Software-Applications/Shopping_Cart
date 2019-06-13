@@ -55,12 +55,12 @@ def def_date():
 selected_products = []
 total_price = 0
 while True:
-    input_id = input("Please input a product identifier:")  
+    input_id = input("Please input a product identifier:")
 
 #TODO: What if the user enters DOne or DONE
 #TODO: What if the user enters someother text string
 #TODO: WHat if the user enters a number that is not available in the list
-    if input_id == "Done":
+    if input_id.lower() == "done":
         break
     else:
         selected_products.append(input_id)
