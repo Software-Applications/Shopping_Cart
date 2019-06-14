@@ -4,3 +4,5 @@
 #Package 2
 
 pytest
+python-dotenv
+sendgrid==5.6.0

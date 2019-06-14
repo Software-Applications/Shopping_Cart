@@ -4,7 +4,7 @@ import datetime
 import os
 import json
 
-
+'''
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -26,6 +26,30 @@ products = [
     {"id":18, "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
     {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
+] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
+'''
+products = [
+    {"id":1, "price_per": "item", "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
+    {"id":2, "price_per": "item", "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
+    {"id":3, "price_per": "item", "name": "Robust Golden Unsweetened Oolong Tea", "department": "beverages", "aisle": "tea", "price": 2.49},
+    {"id":4, "price_per": "item", "name": "Smart Ones Classic Favorites Mini Rigatoni With Vodka Cream Sauce", "department": "frozen", "aisle": "frozen meals", "price": 6.99},
+    {"id":5, "price_per": "item", "name": "Green Chile Anytime Sauce", "department": "pantry", "aisle": "marinades meat preparation", "price": 7.99},
+    {"id":6, "price_per": "item", "name": "Dry Nose Oil", "department": "personal care", "aisle": "cold flu allergy", "price": 21.99},
+    {"id":7, "price_per": "item", "name": "Pure Coconut Water With Orange", "department": "beverages", "aisle": "juice nectars", "price": 3.50},
+    {"id":8, "price_per": "item", "name": "Cut Russet Potatoes Steam N' Mash", "department": "frozen", "aisle": "frozen produce", "price": 4.25},
+    {"id":9, "price_per": "item", "name": "Light Strawberry Blueberry Yogurt", "department": "dairy eggs", "aisle": "yogurt", "price": 6.50},
+    {"id":10, "price_per": "item",  "name": "Sparkling Orange Juice & Prickly Pear Beverage", "department": "beverages", "aisle": "water seltzer sparkling water", "price": 2.99},
+    {"id":11, "price_per": "item",  "name": "Peach Mango Juice", "department": "beverages", "aisle": "refrigerated", "price": 1.99},
+    {"id":12, "price_per": "item",  "name": "Chocolate Fudge Layer Cake", "department": "frozen", "aisle": "frozen dessert", "price": 18.50},
+    {"id":13, "price_per": "item",  "name": "Saline Nasal Mist", "department": "personal care", "aisle": "cold flu allergy", "price": 16.00},
+    {"id":14, "price_per": "item",  "name": "Fresh Scent Dishwasher Cleaner", "department": "household", "aisle": "dish detergents", "price": 4.99},
+    {"id":15, "price_per": "item",  "name": "Overnight Diapers Size 6", "department": "babies", "aisle": "diapers wipes", "price": 25.50},
+    {"id":16, "price_per": "item",  "name": "Mint Chocolate Flavored Syrup", "department": "snacks", "aisle": "ice cream toppings", "price": 4.50},
+    {"id":17, "price_per": "item",  "name": "Rendered Duck Fat", "department": "meat seafood", "aisle": "poultry counter", "price": 9.99},
+    {"id":18, "price_per": "item",  "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
+    {"id":19, "price_per": "item",  "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
+    {"id":20, "price_per": "item",  "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25},
+    {"id":21, "price_per": "pound",  "name": "Bananas", "department": "Organic", "aisle": "fruits", "price": 0.79}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
 
@@ -87,6 +111,8 @@ if __name__ == "__main__":
     selected_products = []
     total_price = 0
     product_ids = [i["id"] for i in products]    # list map. list of all products available. Useful for validation purposes
+    product_ids_pound = [i["id"] for i in products if i["price_per"] == "pound"]
+    #breakpoint()
 
 
     while True:
@@ -109,6 +135,8 @@ if __name__ == "__main__":
         
         else:
             print("You have entered an invalid product id. Enter again or contact the store manager")
+        
+
   
     ## this code is working. if function fails, restore this code
     #while True:
@@ -134,7 +162,10 @@ if __name__ == "__main__":
     print(f"CHECK OUT AT: {def_date()}")
     print("-------------------------------------------------")
     print("SELECTED PRODUCTS")
-
+    
+    # filters empty strings from the list
+    selected_products = [p for p in selected_products if p != '']
+    #breakpoint()
 
     for selected_product in selected_products:
         product_match = [p for p in products if str(p["id"]) in str(selected_product)]
@@ -157,3 +188,4 @@ if __name__ == "__main__":
     print("-------------------------------------------------")
 
 
+#TODO: Send email receipt, write email receipt in folder, google sheets input, price and header automation, pound
