@@ -4,7 +4,7 @@ import datetime
 import os
 import json
 
-products = None
+'''
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -52,7 +52,7 @@ products = [
     {"id":21, "price_per": "pound", "name": "Bananas", "department": "Organic", "aisle": "fruits", "price": 0.79}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-'''
+
 # prompt the checkout clerk to input the identifier of each shopping cart item, one at a time. 
 # When the clerk enters DONE, process payment
 # If product id is not found, ask the user to add a correct entry
@@ -108,11 +108,13 @@ def validate_prod(prod, available_products = []):
 if __name__ == "__main__":
     
     # STEP 1: TAKE INPUTS AND PRINT THEM
-    selected_products = []
+    selected_products_item = []
+    selected_products_pound = []
     total_price = 0
-    product_ids = [i["id"] for i in products]    # type : LIST, INT. list of all products available. Useful for validation purposes
-    #product_ids_item = [i["id"] for i in products if i["price_per"] == 'item']
-    #product_ids_pound = [i["id"] for i in products if i["price_per"] == "pound"]
+    #product_ids = [i["id"] for i in products]    # type : LIST, INT. list of all products available. Useful for validation purposes
+    product_ids_item = [str(i["id"]) for i in products if i["price_per"] == 'item']
+    product_ids_pound = [str(i["id"]) for i in products if i["price_per"] == "pound"]
+    consolidate_products_ids = product_ids_item + product_ids_pound
     #breakpoint()
 
 
@@ -120,9 +122,9 @@ if __name__ == "__main__":
         input_id = input("Please input a product identifier:")   #type : STR
 
         #mapped_prod = validate_prod(input_id, product_ids)
-        #consolidate_products = product_ids_item + product_ids_pound
+        
         #breakpoint()
-        mapped_prod = validate_prod(input_id, product_ids)
+        mapped_prod = validate_prod(input_id, consolidate_products_ids)
         #breakpoint()
 
         #mapped_prod = [list_prod]
@@ -131,16 +133,36 @@ if __name__ == "__main__":
         # If the input is valid, do further processing until user enters Done
         # Done signal is case agnostic
         if mapped_prod != None:
-            
+
             if mapped_prod == "done":
                 break
             else:
-                selected_products.append(mapped_prod)
+                if mapped_prod in product_ids_pound:
+                    #breakpoint()
+                    input_pound = input("Please input the quantity in pounds:")
+
+                    # checks whether the input pound is a valid number
+                    try:
+                        ip = int(input_pound)
+                        prod_dict = {'id' : int(mapped_prod), 'qty' : int(input_pound)}
+                        # this step will create list of dictionaties when product requires a qty
+                        selected_products_pound.append(prod_dict)
+                    except:
+                        print("Invalid quantity. Please try again")
+                    
+                else:
+                    selected_products_item.append(mapped_prod)        
+
+            
+            #if mapped_prod == "done":
+            #    break
+            #else:
+            #    selected_products.append(mapped_prod)
         
         else:
             print("You have entered an invalid product id. Enter again or contact the store manager")
         
-
+    #breakpoint()
   
     ## this code is working. if function fails, restore this code
     #while True:
@@ -170,15 +192,33 @@ if __name__ == "__main__":
     # filters empty strings from the list
     #selected_products = selected_products.strip()
 
-    selected_products = [p for p in selected_products if p.strip() != '']  # type : LIST, STR
-    selected_products = list(map(int, selected_products))
+    selected_products_item = [p for p in selected_products_item if p.strip() != '']  # type : LIST, STR
+    selected_products_item = list(map(int, selected_products_item))
+
+    #selected_products_pound = [p for p in selected_products_pound if p.strip() != '']  # type : LIST, STR
+    #selected_products_pound = list(map(int, selected_products_pound))
     #breakpoint()
 
-    for selected_product in selected_products:
+    # HANDLE ITEMS
+
+    for selected_product in selected_products_item:
         product_match = [p for p in products if p["id"] == selected_product]
         #breakpoint()     
         total_price = total_price + product_match[0]['price']
         product_price = to_usd(product_match[0]['price'])
+        print(f"... {product_match[0]['name']} ({product_price})")
+
+    
+    ## HANDLE POUNDS
+
+
+    for selected_product in selected_products_pound:
+        p_id = selected_product["id"]
+        p_qty = selected_product["qty"]
+        product_match = [p for p in products if p["id"] == p_id]
+        #breakpoint()     
+        total_price = total_price + product_match[0]['price'] * p_qty
+        product_price = to_usd(product_match[0]['price'] * p_qty)
         print(f"... {product_match[0]['name']} ({product_price})")
 
     print("-------------------------------------------------")
