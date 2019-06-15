@@ -164,11 +164,13 @@ if __name__ == "__main__":
     print("SELECTED PRODUCTS")
     
     # filters empty strings from the list
-    selected_products = [p for p in selected_products if p != '']
+    #selected_products = selected_products.strip()
+
+    selected_products = [p for p in selected_products if p.strip() != '']
     #breakpoint()
 
     for selected_product in selected_products:
-        product_match = [p for p in products if str(p["id"]) in str(selected_product)]
+        product_match = [p for p in products if str(p["id"]) in str(selected_product)]      
         total_price = total_price + product_match[0]['price']
         product_price = to_usd(product_match[0]['price'])
         print(f"... {product_match[0]['name']} ({product_price})")
