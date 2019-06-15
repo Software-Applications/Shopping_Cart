@@ -86,11 +86,18 @@ def def_date():
     now = datetime.datetime.now()
     return now.strftime("%Y-%m-%d:%I:%M:%S %p")
 
+def def_date_text():
+    now = datetime.datetime.now()
+    #return now
+    return now.strftime("%Y-%m-%d-%I-%M-%S-%f %p")
+
 def validate_prod(prod, available_products = []):
     #available_products = [p["id"] for p in products]
     
     if str(prod) in str(available_products) or prod.lower() == "done":
         return str(prod).lower()
+
+
 #
 #
 #    else:
@@ -106,6 +113,7 @@ def validate_prod(prod, available_products = []):
 
 # execute the code only when the program is invoked from CLI.
 if __name__ == "__main__":
+    #breakpoint()
     
     # STEP 1: TAKE INPUTS AND PRINT THEM
     selected_products_item = []
@@ -188,6 +196,8 @@ if __name__ == "__main__":
     print(f"CHECK OUT AT: {def_date()}")
     print("-------------------------------------------------")
     print("SELECTED PRODUCTS")
+
+
     
     # filters empty strings from the list
     #selected_products = selected_products.strip()
@@ -200,17 +210,20 @@ if __name__ == "__main__":
     #breakpoint()
 
     # HANDLE ITEMS
+    product_list = []
 
     for selected_product in selected_products_item:
         product_match = [p for p in products if p["id"] == selected_product]
         #breakpoint()     
         total_price = total_price + product_match[0]['price']
         product_price = to_usd(product_match[0]['price'])
+        item = {'name' : product_match[0]['name'], 'price' : product_price}
+        product_list.append(item)
         print(f"... {product_match[0]['name']} ({product_price})")
+            
 
-    
+
     ## HANDLE POUNDS
-
 
     for selected_product in selected_products_pound:
         p_id = selected_product["id"]
@@ -219,12 +232,18 @@ if __name__ == "__main__":
         #breakpoint()     
         total_price = total_price + product_match[0]['price'] * p_qty
         product_price = to_usd(product_match[0]['price'] * p_qty)
+        item = {'name' : product_match[0]['name'], 'price' : product_price}
+        product_list.append(item)
         print(f"... {product_match[0]['name']} ({product_price})")
 
+
+            
     print("-------------------------------------------------")
 
 
     #STEP 2: PRINT SUBTOTAL AND GRAND TOTAL
+
+        
     product_tot_amt = to_usd(total_price)
     product_tot_tax = to_usd(calc_tax(total_price))
     product_grand_tot = to_usd(calc_total_bill_amt(total_price))
@@ -234,6 +253,68 @@ if __name__ == "__main__":
     print("-------------------------------------------------")
     print("Thanks, SEE YOU AGAIN SOON!")
     print("-------------------------------------------------")
+
+
+    file_name = os.path.join(os.getcwd(), "receipts", f"{def_date_text()}.txt")
+
+    with open(file_name, 'w') as file:
+
+        #file.write(print_header())
+
+        file.write("-------------------------------------------------\n")
+        file.write("GREEN FOODS GROCERY STORE\n")       #TODO: This is in main script. Can i put it in a different script
+        file.write("WWW.GREEN-FOODS-GROCERY.COM\n")     #TODO: This is in main script. Can i put it in a different script. Can i make this a hyperlink
+        file.write("-------------------------------------------------\n")
+        file.write(f"CHECK OUT AT: {def_date()}\n")
+        file.write("-------------------------------------------------\n")
+        file.write("SELECTED PRODUCTS\n")    
+
+        for product in product_list:
+            file.write(f"... {product['name']} ({product['price']})")
+            file.write("\n")
+            
+        file.write("\n")
+        file.write(f"SUBTOTAL = {product_tot_amt}\n")
+        file.write(f"TAX = {product_tot_tax}\n")
+        file.write(f"TOTAL = {product_grand_tot}\n")
+        file.write("-------------------------------------------------\n")
+        file.write("Thanks, SEE YOU AGAIN SOON!\n")
+        file.write("-------------------------------------------------\n")
+
+        #file.write(print_footer())
+    
+    #file_name = os.path.join(os.path.dirname(__file__), "..", "receipts", "tt.txt")
+
+
+''' 
+    "my_message.txt" # a relative filepath
+
+    with open(file_name, 'w') as file: # "w" means "open the file for writing" 
+        file.write("Hello World")
+        file.write("\n")
+        file.write("\n")
+        file.write("...")
+        file.write("\n")
+        file.write("\n")
+        file.write("Hello Again")
+
+       # gradebook_filepath = os.path.join(os.path.dirname(__file__), "..", "receipts", "test.txt")
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #TODO: Send email receipt, write email receipt in folder, google sheets input, price and header automation, pound
