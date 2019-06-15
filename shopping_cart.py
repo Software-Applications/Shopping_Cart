@@ -3,6 +3,17 @@
 import datetime
 import os
 import json
+from gsheets import google_sheets_data
+import pprint
+
+products = google_sheets_data()
+
+'''
+for product in products:
+    print(product)
+
+breakpoint()
+'''
 
 '''
 products = [
@@ -27,6 +38,7 @@ products = [
     {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
+'''
 '''
 products = [
     {"id":1, "price_per": "item", "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -54,7 +66,7 @@ products = [
     {"id":'052800488625', "price_per": "item", "name": "Lubriderm", "department": "Personal Care", "aisle": "Moisturizer", "price": 4.56},
     {"id":'049022769922', "price_per": "item", "name": "Wexford Notebook", "department": "Stationary", "aisle": "Notebook", "price": 0.56}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
-
+'''
 
 # prompt the checkout clerk to input the identifier of each shopping cart item, one at a time. 
 # When the clerk enters DONE, process payment
@@ -163,7 +175,9 @@ if __name__ == "__main__":
                         print("Invalid quantity. Please try again")
                     
                 else:
-                    selected_products_item.append(mapped_prod)        
+                    selected_products_item.append(mapped_prod)
+                    
+
 
             
             #if mapped_prod == "done":
