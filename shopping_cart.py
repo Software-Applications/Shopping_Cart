@@ -49,7 +49,10 @@ products = [
     {"id":18, "price_per": "item", "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
     {"id":19, "price_per": "item", "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
     {"id":20, "price_per": "item", "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25},
-    {"id":21, "price_per": "pound", "name": "Bananas", "department": "Organic", "aisle": "fruits", "price": 0.79}
+    {"id":21, "price_per": "pound", "name": "Bananas", "department": "Organic", "aisle": "fruits", "price": 0.79},
+    {"id":'7C04L6E8QG', "price_per": "item", "name": "Google Home Mini", "department": "Electronics", "aisle": "Home Automation", "price": 30.00},
+    {"id":'052800488625', "price_per": "item", "name": "Lubriderm", "department": "Personal Care", "aisle": "Moisturizer", "price": 4.56},
+    {"id":'049022769922', "price_per": "item", "name": "Wexford Notebook", "department": "Stationary", "aisle": "Notebook", "price": 0.56}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
 
@@ -152,7 +155,8 @@ if __name__ == "__main__":
                     # checks whether the input pound is a valid number
                     try:
                         ip = int(input_pound)
-                        prod_dict = {'id' : int(mapped_prod), 'qty' : int(input_pound)}
+                        prod_dict = {'id' : mapped_prod, 'qty' : int(input_pound)}
+                        #prod_dict = {'id' : int(mapped_prod), 'qty' : int(input_pound)}
                         # this step will create list of dictionaties when product requires a qty
                         selected_products_pound.append(prod_dict)
                     except:
@@ -203,7 +207,7 @@ if __name__ == "__main__":
     #selected_products = selected_products.strip()
 
     selected_products_item = [p for p in selected_products_item if p.strip() != '']  # type : LIST, STR
-    selected_products_item = list(map(int, selected_products_item))
+    #selected_products_item = list(map(int, selected_products_item))
 
     #selected_products_pound = [p for p in selected_products_pound if p.strip() != '']  # type : LIST, STR
     #selected_products_pound = list(map(int, selected_products_pound))
@@ -213,7 +217,7 @@ if __name__ == "__main__":
     product_list = []
 
     for selected_product in selected_products_item:
-        product_match = [p for p in products if p["id"] == selected_product]
+        product_match = [p for p in products if str(p["id"]).lower() == selected_product]
         #breakpoint()     
         total_price = total_price + product_match[0]['price']
         product_price = to_usd(product_match[0]['price'])
@@ -228,7 +232,7 @@ if __name__ == "__main__":
     for selected_product in selected_products_pound:
         p_id = selected_product["id"]
         p_qty = selected_product["qty"]
-        product_match = [p for p in products if p["id"] == p_id]
+        product_match = [p for p in products if str(p["id"]).lower() == p_id]
         #breakpoint()     
         total_price = total_price + product_match[0]['price'] * p_qty
         product_price = to_usd(product_match[0]['price'] * p_qty)
