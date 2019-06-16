@@ -3,10 +3,16 @@
 import datetime
 import os
 import json
-from gsheets import google_sheets_data
+from gsheets_data import google_sheets_data
+from gsheets_meta import google_sheets_meta
 import pprint
 
 products = google_sheets_data()
+meta = google_sheets_meta()
+
+tax_rate = meta[0]["tax_rate"]
+store_name = meta[0]["store_name"]
+store_address = meta[0]["store_address"]
 
 #breakpoint()
 
@@ -49,7 +55,8 @@ def to_usd(dollar_amt):
 
 # calculates the tax amount
 def calc_tax(product_total):
-    tax_percent = 8.73                     # TODO: This is in main script. Can i put it in a different script?
+    tax_percent = tax_rate
+    #tax_percent = 8.73                     # TODO: This is in main script. Can i put it in a different script?
     tax_amt = product_total * tax_percent/100
     return tax_amt
 
@@ -113,7 +120,7 @@ if __name__ == "__main__":
                     try:
                         ip = int(input_pound)
                         prod_dict = {'id' : mapped_prod, 'qty' : int(input_pound)}
-                        #prod_dict = {'id' : int(mapped_prod), 'qty' : int(input_pound)}
+                        
                         # this step will create list of dictionaties when product requires a qty
                         selected_products_pound.append(prod_dict)
                     except:
@@ -127,8 +134,8 @@ if __name__ == "__main__":
         
     
     print("-------------------------------------------------")
-    print("GREEN FOODS GROCERY STORE")       #TODO: This is in main script. Can i put it in a different script
-    print("WWW.GREEN-FOODS-GROCERY.COM")     #TODO: This is in main script. Can i put it in a different script. Can i make this a hyperlink
+    print(f"{store_name}")      
+    print(f"{store_address}")     
     print("-------------------------------------------------")
     print(f"CHECK OUT AT: {def_date()}")
     print("-------------------------------------------------")
@@ -175,7 +182,7 @@ if __name__ == "__main__":
         
     product_tot_amt = to_usd(total_price)
     product_tot_tax = to_usd(calc_tax(total_price))
-    product_grand_tot = to_usd(calc_total_bill_amt(total_price))
+    product_grand_tot = to_usd(calc_total_bill_amt(total_price, tax_percent=tax_rate))
     print(f"SUBTOTAL = {product_tot_amt}")
     print(f"TAX = {product_tot_tax}")
     print(f"TOTAL = {product_grand_tot}")
@@ -189,8 +196,8 @@ if __name__ == "__main__":
     with open(file_name, 'w') as file:
 
         file.write("-------------------------------------------------\n")
-        file.write("GREEN FOODS GROCERY STORE\n")       #TODO: This is in main script. Can i put it in a different script
-        file.write("WWW.GREEN-FOODS-GROCERY.COM\n")     #TODO: This is in main script. Can i put it in a different script. Can i make this a hyperlink
+        file.write(f"{store_name}\n")
+        file.write(f"{store_address}\n")
         file.write("-------------------------------------------------\n")
         file.write(f"CHECK OUT AT: {def_date()}\n")
         file.write("-------------------------------------------------\n")
@@ -208,9 +215,4 @@ if __name__ == "__main__":
         file.write("Thanks, SEE YOU AGAIN SOON!\n")
         file.write("-------------------------------------------------\n")
 
-        #file.write(print_footer())
-    
-    #file_name = os.path.join(os.path.dirname(__file__), "..", "receipts", "tt.txt")
-
-
-#TODO: Send email receipt, google sheets input, price and header automation
+#TODO: Send email receipt, 

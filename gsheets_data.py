@@ -1,4 +1,4 @@
-# gsheets.py
+# gsheets_data.py
 
 from dotenv import load_dotenv
 import os
