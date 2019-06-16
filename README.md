@@ -1,6 +1,6 @@
 # Shopping Cart (Python)
 
-Contains Python scripts to help businesses in tagging products purchased by customers and print receipts.
+Contains Python scripts to help businesses in tagging products purchased by customers and printing receipts.
 
 ## Features
 
