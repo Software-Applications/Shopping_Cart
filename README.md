@@ -1,6 +1,6 @@
 # Shopping Cart (Python)
 
-Contains python scripts to help businesses in tagging products purchased by customers and printing receipts.
+Contains python scripts that help businesses in tagging products purchased by customers and printing receipts.
 
 ## Features
 
@@ -29,7 +29,7 @@ Fork the repository from [GitHub source](https://github.com/DheerajRekula/Shoppi
 Then use GitHub Desktop or the command-line to "clone" or download your fork onto your local computer:
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/Shopping_Cart.git # this is the HTTP address, but you could alternatively use the SSH address
+git clone https://github.com/YOUR_USERNAME/notification-service-py.git # this is the HTTP address, but you could alternatively use the SSH address
 ```
 
 Navigate into your local repo before running any of the other commands below:
