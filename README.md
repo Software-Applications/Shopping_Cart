@@ -2,6 +2,19 @@
 
 Contains Python scripts to help businesses in tagging products purchased by customers and print receipts.
 
+## Features
+
+  + prints receipts on CLI
+  + writes receipts to text file in receipts folder
+  + reads product and meta data from google sheets
+  + handles pricing per pound and pricing per item
+  + reads data from barcode scanner
+  + validates product input (pytest script)
+  + validates price format (pytest script)
+  + validates timestamp format (pytest script)
+  + validates tax calculation and total price calculation (pytest script)
+
+
 ## Prerequisites
 
   + Anaconda 3.7
@@ -45,8 +58,9 @@ Run the command to execute the script
 python shopping_cart.py
 ```
 
-## [License](/LICENSE.md)
-
 ## Additional Instructions
 
-This script uses my Google API credentials to sign into Google Sheets. If you want to use your own credentials, follow the instructions available in this [link](https://techwithtim.net/tutorials/google-sheets-python-api-tutorial/) to download a "JSON" API credentials file containing your information. Copy and Paste the file in //google_credentials location inside your local project repository.
+This script uses my Google API credentials to sign into Google Sheets. If you want to use your own credentials, follow the instructions available in this [link](https://techwithtim.net/tutorials/google-sheets-python-api-tutorial/) to download a "JSON" API credentials file containing your information. Copy and Paste the file in //google_credentials1 location inside your local project repository.
+
+## [License](/LICENSE.md)
+
