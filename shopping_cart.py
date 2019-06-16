@@ -56,12 +56,11 @@ def to_usd(dollar_amt):
 # calculates the tax amount
 def calc_tax(product_total):
     tax_percent = tax_rate
-    #tax_percent = 8.73                     # TODO: This is in main script. Can i put it in a different script?
     tax_amt = product_total * tax_percent/100
     return tax_amt
 
 # calculates the grand total
-def calc_total_bill_amt(product_total, tax_percent = 8.75):    #TODO:This is in main script. Can i put in in a different script?
+def calc_total_bill_amt(product_total, tax_percent = tax_rate):
     return product_total + (product_total * tax_percent/100)
 
 # Current date logic to print current date and time based on 12 hour scale
@@ -118,8 +117,8 @@ if __name__ == "__main__":
 
                     # checks whether the input pound is a valid number
                     try:
-                        ip = int(input_pound)
-                        prod_dict = {'id' : mapped_prod, 'qty' : int(input_pound)}
+                        #ip = float(input_pound)
+                        prod_dict = {'id' : mapped_prod, 'qty' : float(input_pound)}
                         
                         # this step will create list of dictionaties when product requires a qty
                         selected_products_pound.append(prod_dict)

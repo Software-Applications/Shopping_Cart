@@ -19,7 +19,7 @@ Then use GitHub Desktop or the command-line to "clone" or download your fork ont
 git clone https://github.com/YOUR_USERNAME/notification-service-py.git # this is the HTTP address, but you could alternatively use the SSH address
 ```
 
-Navigate into your local repo of the clone before running any of the other commands below:
+Navigate into your local repo before running any of the other commands below:
 
 ```sh
 cd //YOUR_CLONE_PATH/shopping_cart
@@ -35,18 +35,14 @@ pip install -r requirements.txt
 
 Copy the ".env.example" file to a new file called ".env" (in your local repo, NOT your remote repo), and update the environment variables inside as necessary (see below).
 
-### Email
-
-For email capabilities, [sign up for a SendGrid account](https://signup.sendgrid.com/), click the link in a confirmation email to verify your account, then [create a new API key](https://app.sendgrid.com/settings/api_keys) with "full access" permissions. Note the email address you used, and the value of the API Key, and store them in environment variables called `MY_EMAIL_ADDRESS` and `SENDGRID_API_KEY`, respectively.
-
 ## Usage
 
-### Send Email
+### Run Script
 
-Send email to the address specified:
+Run the command to execute the script
 
 ```sh
-python app/send_email.py
+python shopping_cart.py
 ```
 
 ## [License](/LICENSE.md)
