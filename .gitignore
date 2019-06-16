@@ -104,7 +104,6 @@ venv.bak/
 .mypy_cache/
 
 #custom folders
-receipts/
 google_credentials/
 google_credentials1/
 .pytest_cache/
