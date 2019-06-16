@@ -15,7 +15,7 @@ def google_sheets_data():
 
     scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
-    file_name = os.path.join(os.getcwd(), "google_credentials", "gcreds.json")
+    file_name = os.path.join(os.getcwd(), "google_credentials1", "gcreds.json")
 
     creds = ServiceAccountCredentials.from_json_keyfile_name(file_name, scope)
 
