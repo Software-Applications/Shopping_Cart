@@ -61,7 +61,7 @@ def calc_tax(product_total):
     return tax_amt
 
 # calculates the grand total
-def calc_total_bill_amt(product_total, tax_percent = 8.73):    #TODO:This is in main script. Can i put in in a different script?
+def calc_total_bill_amt(product_total, tax_percent = 8.75):    #TODO:This is in main script. Can i put in in a different script?
     return product_total + (product_total * tax_percent/100)
 
 # Current date logic to print current date and time based on 12 hour scale
@@ -75,9 +75,9 @@ def def_date_text():
 
 def validate_prod(prod, available_products = []):
     #for loop is important to handle 0 entry
-    for available_product in available_products:           
-        if str(prod) == str(available_product) or prod.lower() == "done":
-            return str(prod).lower()
+    #for available_product in available_products:           
+    if str(prod) in available_products or prod.lower() == "done":
+        return str(prod).lower()
 
 
 # EXECUTES THE BELOW ONLY WHEN THE PROGRAM IS INVOKED FROM CLI. IGNORED FOR PYTESTS
@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
         input_id = input_id.lstrip("0")   # for handling leading zeroes. python is reading data without leading zeroes
 
-        
+        #breakpoint()
         mapped_prod = validate_prod(input_id, consolidate_products_ids)
         
 
